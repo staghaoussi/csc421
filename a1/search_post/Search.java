@@ -53,12 +53,14 @@ public class Search {
 
 	
 	//Iterative deepening, tree-search and graph-search
+	
 	// tree search has no history
-	// graph search keeps track of history
 	public String IterativeDeepeningTreeSearch() {
+		// how do we set limit to infinity?
 		for(int limit = 0; limit < 1000; limit++){
 			String result = TreeSearchDepthLimited(new FrontierLIFO(), limit);
 			// hash over goal testing of result w/ emma
+			// maybe check result for null? Null is returned when frontier is empty, hence no solution...
 			if (problem.goal_test(result)) {
 				return result;
 			}
@@ -66,11 +68,13 @@ public class Search {
 		}
 		return null;
 	}
-	
+	// graph search keeps track of history
 	public String IterativeDeepeningGraphSearch() {
+		// how do we set limit to infinity?
 		for(int limit = 0; limit < 1000; limit++){
 			String result = GraphSearchDepthLimited(new FrontierLIFO(), limit);
 			// hash over goal testing of result w/ emma
+			// maybe check result for null? Null is returned when frontier is empty, hence no solution...
 			if (problem.goal_test(result)) {
 				return result;
 			}
