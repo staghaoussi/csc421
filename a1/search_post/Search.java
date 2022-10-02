@@ -53,13 +53,29 @@ public class Search {
 
 	
 	//Iterative deepening, tree-search and graph-search
+	// tree search has no history
+	// graph search keeps track of history
 	public String IterativeDeepeningTreeSearch() {
-		//TODO
+		for(int limit = 0; limit < 1000; limit++){
+			String result = TreeSearchDepthLimited(new FrontierLIFO(), limit);
+			// hash over goal testing of result w/ emma
+			if (problem.goal_test(result)) {
+				return result;
+			}
+
+		}
 		return null;
 	}
 	
 	public String IterativeDeepeningGraphSearch() {
-		//TODO
+		for(int limit = 0; limit < 1000; limit++){
+			String result = GraphSearchDepthLimited(new FrontierLIFO(), limit);
+			// hash over goal testing of result w/ emma
+			if (problem.goal_test(result)) {
+				return result;
+			}
+
+		}
 		return null;	
 	}
 	
@@ -120,13 +136,59 @@ public class Search {
 	}
 	
 	private String TreeSearchDepthLimited(Frontier frontier, int limit) {
-		//TODO
-		return null;
+		cnt = 0; 
+		node_list = new ArrayList<Node>();
+		
+		initialNode = MakeNode(problem.initialState); 
+		node_list.add( initialNode );
+		
+		frontier.insert( initialNode );
+
+		while (true) {
+			if (frontier.isEmpty()) {
+				return null;
+			}
+
+			Node node = frontier.remove();
+
+			if( problem.goal_test(node.state) )
+				return Solution(node);
+			
+			// add all children of selected node to frontier if depth is less than limit
+			if (node.depth < limit) {
+				frontier.insertAll(Expand(node, problem));
+			}
+
+
+		}
 	}
 
 	private String GraphSearchDepthLimited(Frontier frontier, int limit) {
-		//TODO
-		return null;	
+		cnt = 0; 
+		node_list = new ArrayList<Node>();
+		
+		initialNode = MakeNode(problem.initialState); 
+		node_list.add( initialNode );
+		
+		Set<Object> explored = new HashSet<Object>();
+		frontier.insert( initialNode );
+
+		while (true) {
+			if (frontier.isEmpty()) {
+				return null;
+			}
+			Node node = frontier.remove();
+
+			if( problem.goal_test(node.state) )
+				return Solution(node);
+			
+			// add all children of selected node to frontier if depth is less than limit
+			if (node.depth < limit && !explored.contains(node.state)) {
+				explored.add(node.state);
+				frontier.insertAll(Expand(node, problem));
+				cnt++;
+			}
+		}	
 	}
 
 	private Node MakeNode(Object state) {
