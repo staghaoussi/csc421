@@ -57,30 +57,28 @@ public class Search {
 	// tree search has no history
 	public String IterativeDeepeningTreeSearch() {
 		// how do we set limit to infinity?
-		for(int limit = 0; limit < 1000; limit++){
+		for(int limit = 0; ; limit++){
 			String result = TreeSearchDepthLimited(new FrontierLIFO(), limit);
 			// hash over goal testing of result w/ emma
 			// maybe check result for null? Null is returned when frontier is empty, hence no solution...
-			if (problem.goal_test(result)) {
+			if (result != null) {
 				return result;
 			}
 
 		}
-		return null;
 	}
 	// graph search keeps track of history
 	public String IterativeDeepeningGraphSearch() {
 		// how do we set limit to infinity?
-		for(int limit = 0; limit < 1000; limit++){
+		for(int limit = 0; ; limit++){
 			String result = GraphSearchDepthLimited(new FrontierLIFO(), limit);
 			// hash over goal testing of result w/ emma
 			// maybe check result for null? Null is returned when frontier is empty, hence no solution...
-			if (problem.goal_test(result)) {
+			if (result != null) {
 				return result;
 			}
 
 		}
-		return null;	
 	}
 	
 	//For statistics purposes
@@ -161,6 +159,7 @@ public class Search {
 			// add all children of selected node to frontier if depth is less than limit
 			if (node.depth < limit) {
 				frontier.insertAll(Expand(node, problem));
+				cnt++;
 			}
 
 
