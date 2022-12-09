@@ -56,6 +56,7 @@ public class Search {
 	
 	// tree search has no history
 	public String IterativeDeepeningTreeSearch() {
+		cnt = 0; 
 		// how do we set limit to infinity?
 		for(int limit = 0; ; limit++){
 			String result = TreeSearchDepthLimited(new FrontierLIFO(), limit);
@@ -69,6 +70,7 @@ public class Search {
 	}
 	// graph search keeps track of history
 	public String IterativeDeepeningGraphSearch() {
+		cnt = 0; 
 		// how do we set limit to infinity?
 		for(int limit = 0; ; limit++){
 			String result = GraphSearchDepthLimited(new FrontierLIFO(), limit);
@@ -138,7 +140,6 @@ public class Search {
 	}
 	
 	private String TreeSearchDepthLimited(Frontier frontier, int limit) {
-		cnt = 0; 
 		node_list = new ArrayList<Node>();
 		
 		initialNode = MakeNode(problem.initialState); 
@@ -167,7 +168,6 @@ public class Search {
 	}
 
 	private String GraphSearchDepthLimited(Frontier frontier, int limit) {
-		cnt = 0; 
 		node_list = new ArrayList<Node>();
 		
 		initialNode = MakeNode(problem.initialState); 
